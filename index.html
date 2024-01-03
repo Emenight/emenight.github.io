@@ -63,8 +63,9 @@
               <option value="Europe/London">United Kingdom</option>
               <option value="America/New_York">New York</option>
               <option value="America/Los_Angeles">California</option>
-              <option value="America/Mexico_City">Mexico City</option>
-              <!-- Add more timezone options here -->
+              <option value="America/New_York">Florida</option>
+              <option value="America/Vancouver">Washington</option>
+              <option value="America/Chicago">Texas</option>
             </select>
           </div>
         </div>
@@ -87,8 +88,8 @@
   
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
   <script>
-    // Retrieve time zones from localStorage or use a default array
-    var timeZones = JSON.parse(localStorage.getItem('timeZones')) || [
+    // I forgor what this do
+    var timeZones = [
       { username: "Friend1", timezone: "America/New_York" },
       { username: "Friend2", timezone: "Europe/London" },
       { username: "Friend3", timezone: "Asia/Tokyo" }
@@ -121,10 +122,10 @@
       const time24hrElement = document.createElement('div');
       time24hrElement.classList.add('time-24hr');
 
-      // Initial call to set the time
+      // errr
       updateTime();
 
-      // Set up interval to update the time every second
+      // If I lower it, why it lag?
       const intervalId = setInterval(updateTime, 1000);
 
       function updateTime() {
@@ -136,17 +137,13 @@
       const timezoneElement = document.createElement('div');
       timezoneElement.classList.add('card-text');
       timezoneElement.textContent = timezone;
-
+// I stole this piece of code
       const removeBtn = document.createElement('span');
       removeBtn.classList.add('remove-btn');
       removeBtn.innerHTML = '&#10006;'; // Unicode for '✖'
       removeBtn.addEventListener('click', function () {
         clearInterval(intervalId);
         card.remove();
-        // Remove the corresponding entry from the timeZones array
-        timeZones = timeZones.filter(tz => !(tz.username === username && tz.timezone === timezone));
-        // Save the updated array to localStorage
-        localStorage.setItem('timeZones', JSON.stringify(timeZones));
       });
 
       cardBody.appendChild(removeBtn);
@@ -167,13 +164,16 @@
       const timezone = document.getElementById('timezone').value;
       const password = document.getElementById('password').value;
       
-      // Check password
+      // mmm, password
       if (password === "sex") { 
         renderTimezoneCard(username, timezone);
         document.getElementById('addTimezoneForm').reset();
-        // Add the new entry to the timeZones array
-        timeZones.push({ username, timezone });
-        // Save the updated array to localStorage
-        localStorage.setItem('timeZones', JSON.stringify(timeZones));
       } else {
-        alert("Invalid password. Please try
+        alert("Invalid password. Please try again.");
+      }
+    }
+    
+    document.getElementById('addTimezoneForm').addEventListener('submit', handleAddTimezoneFormSubmit);
+  </script>
+</body>
+</html>
