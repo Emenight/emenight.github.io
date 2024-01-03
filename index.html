@@ -1,3 +1,4 @@
+// a lot of this code is stolen
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,7 @@
   <style>
     body {
         background-color: black;
-        color: purple ; /* Optional: Set text color to white for better visibility on a dark background */
+        color: purple ; //text colour
     }
     .timezone-card {
       width: 300px;
@@ -56,11 +57,11 @@
     <div id="timezones" class="row row-cols-1 row-cols-md-2 row-cols-lg-3"></div>
   </div>
 
-  <!-- Include Bootstrap JS -->
+  // no clue what a bootstrap is, it told me to add this
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Your script for rendering time zones -->
+ // the times
   <script>
-    // Sample time zone data (replace this with your actual data)
+    // time zones
     var timeZones = [
       { username: "Emenit", timezone: "Europe/Stockholm" },
       { username: "CrazyCrazyDj20", timezone: "America/Chicago" },
@@ -69,12 +70,11 @@
       { username: "Irkiset", timezone: "America/Los_Angeles" },
       { username: "Katx", timezone: "Europe/London" },
       { username: "Katez", timezone: "Europe/Berlin" },
-            { username: "Placeholder", timezone: "Europe/Berlin" },
-            { username: "Placeholder", timezone: "Europe/Berlin" },
+      { username: "Placeholder", timezone: "Europe/Berlin" },
     ];
 
 
-    // Function to render time zone cards
+    // Function to make cards
     function renderTimezoneCard(username, timezone) {
       const card = document.createElement('div');
       card.classList.add('timezone-card', 'col');
