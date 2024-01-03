@@ -1,5 +1,4 @@
-Made by Emenit/Emeknight/Emenight/Emenite, no steal code X
-<!DOCTYPE html>
+Made by Emenit/Emeknight/Emenight/Emenite, no steal code
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -69,18 +68,19 @@ Made by Emenit/Emeknight/Emenight/Emenite, no steal code X
   <script>
     // time zones
     var timeZones = [
-      { username: "Emenit", timezone: "Europe/Stockholm" },
-      { username: "CrazyCrazyDj20", timezone: "America/Chicago" },
-      { username: "StoneBigMan", timezone: "America/New_York" },
-      { username: "ButteryBob_XD", timezone: "America/Vancouver" },
-      { username: "Irkiset", timezone: "America/Los_Angeles" },
-      { username: "Katx", timezone: "Europe/London" },
-      { username: "Katez", timezone: "Europe/Berlin" },
-      { username: "Placeholder", timezone: "Europe/Berlin" },
+      { username: "Emenit", timezone: "Europe/Stockholm", image: "https://cdn.discordapp.com/avatars/294907746073968640/b9ddc3f3b249451ffd5373c863077f02.webp?size=128" },
+      { username: "CrazyCrazyDj20", timezone: "America/Chicago", image: "https://cdn.discordapp.com/avatars/428709582269972480/237b423f259e08c68be21a4e09c25f88.webp?size=128" },
+      { username: "StoneBigMan", timezone: "America/New_York", image: "https://cdn.discordapp.com/avatars/869163120675921931/e059dc557bb332d1ef484feeda180a55.webp?size=128" },
+      { username: "ButteryBob_XD", timezone: "America/Vancouver", image: "https://cdn.discordapp.com/avatars/1179205875420909609/32d28b2a5e5dc9065c380bec6501b040.webp?size=128" },
+      { username: "Irkiset", timezone: "America/Los_Angeles", image: "https://cdn.discordapp.com/avatars/758400910127792148/017fcf76851fad99bf01f3b1d4ac1db0.webp?size=128" },
+      { username: "Katx", timezone: "Europe/London", image: "https://cdn.discordapp.com/avatars/634179407719956511/06e7a278ccd235dd328dd4e6ce853a48.webp?size=128" },
+      { username: "Katz", timezone: "Europe/Berlin", image: "https://cdn.discordapp.com/avatars/716188601360187412/3fa510ac10b6a9b28513249c85dd7dec.webp?size=128" },
+      { username: "Placeholder", timezone: "Pacific/Tarawa", image: "https://raw.githubusercontent.com/Emenight/emenight.github.io/main/9k.png" },
+
     ];
 
     // Function to make cards
-    function renderTimezoneCard(username, timezone) {
+    function renderTimezoneCard(username, timezone, image) {
       const card = document.createElement('div');
       card.classList.add('timezone-card', 'col');
 
@@ -98,8 +98,8 @@ Made by Emenit/Emeknight/Emenight/Emenite, no steal code X
       time24hrElement.classList.add('time-24hr');
 
       const imageElement = document.createElement('img');
-      imageElement.setAttribute('src', 'https://raw.githubusercontent.com/Emenight/emenight.github.io/main/9k.png');
       imageElement.setAttribute('alt', 'Username Image');
+      imageElement.setAttribute('src', image);
 
       // Function to update time every second
       function updateTime() {
@@ -111,13 +111,6 @@ Made by Emenit/Emeknight/Emenight/Emenite, no steal code X
 
         timeElement.textContent = date.toLocaleString('en-US', options12hr);
         time24hrElement.textContent = date.toLocaleString('en-US', options24hr);
-
-        // Check if it's past 10pm (22:00) and change the image 
-        if (currentHour >= 22) {
-          imageElement.setAttribute('src', 'https://raw.githubusercontent.com/Emenight/emenight.github.io/main/9ksleep.png');
-        } else {
-          imageElement.setAttribute('src', 'https://raw.githubusercontent.com/Emenight/emenight.github.io/main/9k.png');
-        }
       }
 
       const intervalId = setInterval(updateTime, 1000);
@@ -150,7 +143,7 @@ Made by Emenit/Emeknight/Emenight/Emenite, no steal code X
     }
 
     // Render existing time zones on page load
-    timeZones.forEach(zone => renderTimezoneCard(zone.username, zone.timezone));
+    timeZones.forEach(zone => renderTimezoneCard(zone.username, zone.timezone, zone.image));
   </script>
 </body>
 </html>
