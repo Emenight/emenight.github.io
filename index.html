@@ -1,14 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Friends Timezones</title>
-  <!-- Include Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-  <!-- Your custom styles -->
   <style>
-    /* ... Your existing styles ... */
+    .timezone-card {
+      width: 300px;
+      margin-bottom: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    .timezone-card .card-body {
+      padding: 0;
+    }
+    .timezone-card .card-text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .timezone-card .card-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .timezone-card .time {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .timezone-card .time-24hr {
+      font-size: 1rem;
+      color: #777;
+    }
+    .remove-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -32,7 +62,10 @@
               <option value="Europe/Berlin">Germany</option>
               <option value="Europe/London">United Kingdom</option>
               <option value="America/New_York">New York</option>
-              <!-- Add more timezone options as needed -->
+              <option value="America/Los_Angeles">California</option>
+              <option value="America/New_York">Florida</option>
+              <option value="America/Vancouver">Washington</option>
+              <option value="America/Chicago">Texas</option>
             </select>
           </div>
         </div>
@@ -46,57 +79,101 @@
       <div class="row">
         <div class="col-md-4">
           <div class="mb-3">
-            <button type="button" class="btn btn-primary" onclick="addTimezone()">Add Timezone</button>
+            <button type="submit" class="btn btn-primary">Add Timezone</button>
           </div>
         </div>
       </div>
     </form>
   </div>
-
-  <!-- Include Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
   <script>
-    // Static array of initial time zones
-    const initialTimeZones = [
+    // I forgor what this do
+    var timeZones = [
       { username: "Friend1", timezone: "America/New_York" },
       { username: "Friend2", timezone: "Europe/London" },
       { username: "Friend3", timezone: "Asia/Tokyo" }
     ];
-
-    // Function to render initial time zones
-    function renderInitialTimeZones() {
-      initialTimeZones.forEach(zone => renderTimezoneCard(zone.username, zone.timezone));
+    
+    function getTimezoneTime(timezone) {
+      const date = new Date();
+      const options12hr = { timeZone: timezone, hour: 'numeric', minute: 'numeric', second: 'numeric' };
+      const options24hr = { timeZone: timezone, hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
+      return {
+        time12hr: date.toLocaleString('en-US', options12hr),
+        time24hr: date.toLocaleString('en-US', options24hr)
+      };
     }
+    
+    function renderTimezoneCard(username, timezone) {
+      const card = document.createElement('div');
+      card.classList.add('timezone-card', 'col');
+      
+      const cardBody = document.createElement('div');
+      cardBody.classList.add('card-body');
 
-    // Function to add new time zone dynamically
-    function addTimezone() {
+      const usernameElement = document.createElement('div');
+      usernameElement.classList.add('card-title');
+      usernameElement.textContent = username;
+
+      const timeElement = document.createElement('div');
+      timeElement.classList.add('time');
+
+      const time24hrElement = document.createElement('div');
+      time24hrElement.classList.add('time-24hr');
+
+      // errr
+      updateTime();
+
+      // If I lower it, why it lag?
+      const intervalId = setInterval(updateTime, 1000);
+
+      function updateTime() {
+        const { time12hr, time24hr } = getTimezoneTime(timezone);
+        timeElement.textContent = time12hr;
+        time24hrElement.textContent = time24hr;
+      }
+
+      const timezoneElement = document.createElement('div');
+      timezoneElement.classList.add('card-text');
+      timezoneElement.textContent = timezone;
+// I stole this piece of code
+      const removeBtn = document.createElement('span');
+      removeBtn.classList.add('remove-btn');
+      removeBtn.innerHTML = '&#10006;'; // Unicode for '✖'
+      removeBtn.addEventListener('click', function () {
+        clearInterval(intervalId);
+        card.remove();
+      });
+
+      cardBody.appendChild(removeBtn);
+      cardBody.appendChild(usernameElement);
+      cardBody.appendChild(timeElement);
+      cardBody.appendChild(time24hrElement);
+      cardBody.appendChild(timezoneElement);
+
+      card.appendChild(cardBody);
+
+      document.getElementById('timezones').appendChild(card);
+    }
+    
+    function handleAddTimezoneFormSubmit(event) {
+      event.preventDefault();
+      
       const username = document.getElementById('username').value;
       const timezone = document.getElementById('timezone').value;
-
-      // Validate password (you can add additional validation if needed)
       const password = document.getElementById('password').value;
-      if (password === "sex") {
+      
+      // mmm, password
+      if (password === "sex") { 
         renderTimezoneCard(username, timezone);
         document.getElementById('addTimezoneForm').reset();
       } else {
         alert("Invalid password. Please try again.");
       }
     }
-
-    // Function to render a new timezone card
-    function renderTimezoneCard(username, timezone) {
-      // ... existing rendering logic ...
-
-      const card = document.createElement('div');
-      card.classList.add('timezone-card', 'col');
-
-      // ... existing card creation logic ...
-
-      document.getElementById('timezones').appendChild(card);
-    }
-
-    // Initialize the page with the initial time zones
-    renderInitialTimeZones();
+    
+    document.getElementById('addTimezoneForm').addEventListener('submit', handleAddTimezoneFormSubmit);
   </script>
 </body>
 </html>
