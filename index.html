@@ -97,14 +97,27 @@ Made by Emenit/Emeknight/Emenight/Emenite, no steal code
       const time24hrElement = document.createElement('div');
       time24hrElement.classList.add('time-24hr');
 
+      const imageElement = document.createElement('img');
+      imageElement.setAttribute('src', 'https://raw.githubusercontent.com/Emenight/emenight.github.io/main/9k.png');
+      imageElement.setAttribute('alt', 'Username Image');
+
       // Function to update time every second
       function updateTime() {
         const date = new Date();
         const options12hr = { timeZone: timezone, hour: 'numeric', minute: 'numeric', second: 'numeric' };
         const options24hr = { timeZone: timezone, hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
 
+        const currentHour = date.getHours();
+
         timeElement.textContent = date.toLocaleString('en-US', options12hr);
         time24hrElement.textContent = date.toLocaleString('en-US', options24hr);
+
+        // Check if it's past 10pm (22:00) and change the image 
+        if (currentHour >= 22) {
+          imageElement.setAttribute('src', 'https://raw.githubusercontent.com/Emenight/emenight.github.io/main/9ksleep.png');
+        } else {
+          imageElement.setAttribute('src', 'https://raw.githubusercontent.com/Emenight/emenight.github.io/main/9k.png');
+        }
       }
 
       const intervalId = setInterval(updateTime, 1000);
@@ -124,17 +137,12 @@ Made by Emenit/Emeknight/Emenight/Emenite, no steal code
       removeBtn.innerHTML = '&#10006;';
       removeBtn.addEventListener('click', removeCard);
 
-      // Image element
-      const imageElement = document.createElement('img');
-      imageElement.setAttribute('src', 'https://raw.githubusercontent.com/Emenight/emenight.github.io/main/9k.png');
-      imageElement.setAttribute('alt', 'Username Image');
-
       cardBody.appendChild(removeBtn);
       cardBody.appendChild(usernameElement);
       cardBody.appendChild(timeElement);
       cardBody.appendChild(time24hrElement);
       cardBody.appendChild(timezoneElement);
-      cardBody.appendChild(imageElement);  
+      cardBody.appendChild(imageElement);
 
       card.appendChild(cardBody);
 
