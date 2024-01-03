@@ -83,10 +83,6 @@
       const cardBody = document.createElement('div');
       cardBody.classList.add('card-body');
 
-      const imageElement = document.createElement('img');
-      imageElement.setAttribute('src', 'https://raw.githubusercontent.com/Emenight/emenight.github.io/blob/main/9k.png'); // Replace with your GitHub username and repository name
-      imageElement.setAttribute('alt', 'Username Image');
-
       const usernameElement = document.createElement('div');
       usernameElement.classList.add('card-title');
       usernameElement.textContent = username;
@@ -124,12 +120,17 @@
       removeBtn.innerHTML = '&#10006;';
       removeBtn.addEventListener('click', removeCard);
 
+      // Image element
+      const imageElement = document.createElement('img');
+      imageElement.setAttribute('src', 'https://github.com/Emenight/emenight.github.io/blob/main/9k.png');
+      imageElement.setAttribute('alt', 'Username Image');
+
       cardBody.appendChild(removeBtn);
-      cardBody.appendChild(imageElement);
       cardBody.appendChild(usernameElement);
       cardBody.appendChild(timeElement);
       cardBody.appendChild(time24hrElement);
       cardBody.appendChild(timezoneElement);
+      cardBody.appendChild(imageElement);  // Move the image to the bottom of the card body
 
       card.appendChild(cardBody);
 
