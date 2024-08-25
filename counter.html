@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Point Tracker</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .buttons {
+            display: flex;
+            gap: 20px;
+        }
+        button {
+            font-size: 1.5em;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="point-value">0</h1>
+    <div class="buttons">
+        <button onclick="addPoint()">+1</button>
+        <button onclick="subtractPoint()">-1</button>
+    </div>
+
+    <script>
+        // Retrieve points from local storage or initialize to 0
+        let points = parseInt(localStorage.getItem('points')) || 0;
+        updatePoints();
+
+        function addPoint() {
+            points++;
+            updateStorage();
+            updatePoints();
+        }
+
+        function subtractPoint() {
+            points--;
+            updateStorage();
+            updatePoints();
+        }
+
+        function updatePoints() {
+            document.getElementById('point-value').innerText = points;
+        }
+
+        function updateStorage() {
+            localStorage.setItem('points', points);
+        }
+    </script>
+</body>
+</html>
