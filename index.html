@@ -1,0 +1,294 @@
+<p>Made by Emenit/Emeknight/Emenight/Emenite
+<br>These times zones are just the closest one with a real time zone name, the time is still correct
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Friends Timezones</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" />
+  <link
+    rel="icon"
+    href="https://raw.githubusercontent.com/Emenight/emenight.github.io/main/9k.png"
+    type="image/png"
+  />
+  <style>
+    :root {
+      --bg-color: black;
+      --text-color: purple;
+      --border-color: purple;
+    }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      position: relative;
+      overflow-x: hidden;
+    }
+    canvas#hacker-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      display: none;
+    }
+    .timezone-card {
+      width: 300px;
+      margin-bottom: 20px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.3);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    .timezone-card .card-body {
+      padding: 0;
+    }
+    .timezone-card .card-text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .timezone-card .card-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .timezone-card .time {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .timezone-card .time-24hr {
+      font-size: 1rem;
+      color: #777;
+    }
+    .timezone-card .remove-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      cursor: pointer;
+    }
+    .timezone-card img {
+      max-width: 100%;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+    #theme-box {
+      position: fixed;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .theme-button {
+      width: 40px;
+      height: 40px;
+      border: 2px solid black;
+      cursor: pointer;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="hacker-canvas"></canvas>
+
+  <div class="container">
+    <h1>Friends Timezones</h1>
+    <div id="theme-box">
+      <button class="theme-button" style="background: purple;" onclick="setTheme('black')"></button>
+      <button class="theme-button" style="background: white;" onclick="setTheme('white')"></button>
+      <button class="theme-button" style="background: #1a1a2e;" onclick="setTheme('darkblue')"></button>
+      <button class="theme-button" style="background: #222;" onclick="setTheme('gray')"></button>
+      <button class="theme-button" style="background: #0f0;" onclick="setTheme('hacker')"></button>
+    </div>
+    <div id="timezones" class="row row-cols-1 row-cols-md-2 row-cols-lg-3"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const themes = {
+      black: { bg: "black", text: "purple", border: "purple" },
+      white: { bg: "white", text: "black", border: "black" },
+      darkblue: { bg: "#1a1a2e", text: "#e94560", border: "#e94560" },
+      gray: { bg: "#222", text: "#0f0", border: "#0f0" },
+      hacker: { bg: "black", text: "#0f0", border: "#0f0" },
+    };
+
+    function setTheme(theme) {
+      const canvas = document.getElementById("hacker-canvas");
+      const isHacker = theme === "hacker";
+
+      const { bg, text, border } = themes[theme];
+      document.documentElement.style.setProperty("--bg-color", bg);
+      document.documentElement.style.setProperty("--text-color", text);
+      document.documentElement.style.setProperty("--border-color", border);
+
+      if (isHacker) {
+        canvas.style.display = "block";
+        if (!canvas.started) {
+          startMatrix(canvas);
+          canvas.started = true;
+        }
+      } else {
+        canvas.style.display = "none";
+      }
+    }
+
+    function startMatrix(canvas) {
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const letters =
+        "アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      const fontSize = 14;
+      const columns = canvas.width / fontSize;
+      const drops = Array.from({ length: columns }, () => 1);
+
+      function draw() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#0f0";
+        ctx.font = fontSize + "px monospace";
+
+        for (let i = 0; i < drops.length; i++) {
+          const text = letters.charAt(Math.floor(Math.random() * letters.length));
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        }
+      }
+
+      setInterval(draw, 33);
+    }
+
+    setTheme("black");
+
+    var timeZones = [
+      {
+        username: "Emenit",
+        timezone: "Europe/Stockholm",
+        image:
+          "https://raw.githubusercontent.com/Emenight/emenight.github.io/refs/heads/main/Emenit.png",
+      },
+      {
+        username: "Katz",
+        timezone: "Europe/Berlin",
+        image:
+          "https://cdn.discordapp.com/avatars/716188601360187412/60d08bba2df99fd0a7f401bf6db6b38c.webp?size=128",
+      },
+      {
+        username: "Katx",
+        timezone: "Europe/London",
+        image: "https://raw.githubusercontent.com/Emenight/emenight.github.io/refs/heads/main/Katx.png",
+      },
+      {
+        username: "StoneBigMan",
+        timezone: "America/New_York",
+        image:
+          "https://raw.githubusercontent.com/Emenight/emenight.github.io/refs/heads/main/stonebigman.png",
+      },
+      {
+        username: "Karby",
+        timezone: "America/New_York",
+        image:
+          "https://raw.githubusercontent.com/Emenight/emenight.github.io/refs/heads/main/KArby.png",
+      },
+      {
+        username: "CrazyCrazyDj20",
+        timezone: "America/Chicago",
+        image:
+          "https://raw.githubusercontent.com/Emenight/emenight.github.io/refs/heads/main/CrazyCrazydj20.png",
+      },
+      {
+        username: "Alert",
+        timezone: "America/Vancouver",
+        image:
+          "https://raw.githubusercontent.com/Emenight/emenight.github.io/refs/heads/main/Alert.png",
+      },
+      {
+        username: "ButteryBob_XD",
+        timezone: "America/Vancouver",
+        image:
+          "https://raw.githubusercontent.com/Emenight/emenight.github.io/refs/heads/main/Bob.png",
+      },
+      {
+        username: "Irkiset",
+        timezone: "America/Los_Angeles",
+        image:
+          "https://cdn.discordapp.com/avatars/758400910127792148/a_a2f0554609f14c0d6dfb1fe4af4a1d6b.webp?size=128",
+      },
+      {
+        username: "Kc",
+        timezone: "America/Los_Angeles",
+        image:
+          "https://cdn.discordapp.com/avatars/273326661749964800/a0b906639f76a3dd426cad3f94fae7f0.webp?size=128",
+      },
+    ];
+
+    function renderTimezoneCard(username, timezone, image) {
+      const card = document.createElement("div");
+      card.classList.add("timezone-card", "col");
+
+      const cardBody = document.createElement("div");
+      cardBody.classList.add("card-body");
+
+      const usernameElement = document.createElement("div");
+      usernameElement.classList.add("card-title");
+      usernameElement.textContent = username;
+
+      const timeElement = document.createElement("div");
+      timeElement.classList.add("time");
+
+      const time24hrElement = document.createElement("div");
+      time24hrElement.classList.add("time-24hr");
+
+      const imageElement = document.createElement("img");
+      imageElement.setAttribute("alt", "Username Image");
+      imageElement.setAttribute("src", image);
+
+      function updateTime() {
+        const date = new Date();
+        const options12hr = { timeZone: timezone, hour: "numeric", minute: "numeric", second: "numeric" };
+        const options24hr = { timeZone: timezone, hour: "numeric", minute: "numeric", second: "numeric", hour12: false };
+        timeElement.textContent = date.toLocaleString("en-US", options12hr);
+        time24hrElement.textContent = date.toLocaleString("en-US", options24hr);
+      }
+
+      const intervalId = setInterval(updateTime, 1000);
+
+      function removeCard() {
+        clearInterval(intervalId);
+        card.remove();
+      }
+
+      const timezoneElement = document.createElement("div");
+      timezoneElement.classList.add("card-text");
+      timezoneElement.textContent = timezone;
+
+      const removeBtn = document.createElement("span");
+      removeBtn.classList.add("remove-btn");
+      removeBtn.innerHTML = "&#10006;";
+      removeBtn.addEventListener("click", removeCard);
+
+      cardBody.appendChild(removeBtn);
+      cardBody.appendChild(usernameElement);
+      cardBody.appendChild(timeElement);
+      cardBody.appendChild(time24hrElement);
+      cardBody.appendChild(timezoneElement);
+      cardBody.appendChild(imageElement);
+
+      card.appendChild(cardBody);
+
+      document.getElementById("timezones").appendChild(card);
+    }
+
+    timeZones.forEach((zone) => renderTimezoneCard(zone.username, zone.timezone, zone.image));
+  </script>
+</body>
+</html>
